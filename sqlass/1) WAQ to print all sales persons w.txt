@@ -1,0 +1,235 @@
+1) WAQ to print all sales persons who live in London (don’t use in clause)
+mysql> select * from salespeople
+    -> where city='London';
++-------+-----------+--------+------------+---------+
+| snum  | sname     | city   | comm       | country |
++-------+-----------+--------+------------+---------+
+|  1002 | Alex      | London | 5877453.21 | NULL    |
+|  1011 | Simran    | London |   70374.21 | NULL    |
+|  1012 | Peel      | London |    5962.01 | NULL    |
+|  1016 | alexander | London |   99245.01 | NULL    |
+|  1018 | Rixon     | London |   99245.21 | NULL    |
+| 10067 | James     | London |     540.00 | UK      |
++-------+-----------+--------+------------+---------+
+6 rows in set (0.23 sec)
+2) WAQ to print all customers who live in London, New York
+,Chicago,Johannesburg, Seoul,Tokyo, Mumbai and Punjab
+(use in only)
+ysql> SELECT *
+    -> FROM customers
+    -> WHERE city IN (
+    ->     'London',
+    ->     'NewYork',
+    ->     'Chicago',
+    ->     'Johannesburg',
+    ->     'Seoul',
+    ->     'Tokyo',
+    ->     'Mumbai',
+    ->     'Punjab'
+    -> );
++------+----------+--------------+------+
+| cnum | cname    | city         | snum |
++------+----------+--------------+------+
+| 5001 | abi      | Mumbai       | 1004 |
+| 5003 | alex     | London       | 1016 |
+| 5004 | Rahul    | London       | 1002 |
+| 5005 | Sneha    | NewYork      | 1005 |
+| 5006 | Arjun    | Chicago      | 1009 |
+| 5007 | Meera    | Johannesburg | 1013 |
+| 5008 | Kiran    | Seoul        | 1011 |
+| 5009 | Priya    | Tokyo        | 1016 |
+| 5010 | Vivek    | Mumbai       | 1014 |
+| 5011 | Anita    | Punjab       | 1001 |
+| 5012 | John     | London       | 1012 |
+| 5013 | Sara     | NewYork      | 1005 |
+| 5014 | David    | Chicago      | 1018 |
+| 5015 | Grace    | Johannesburg | 1017 |
+| 5016 | Kevin    | Seoul        | 1011 |
+| 5017 | Yuki     | Tokyo        | 1002 |
+| 5018 | Harpreet | Punjab       | 1021 |
++------+----------+--------------+------+
+17 rows in set (0.01 sec)
+
+3) WAQ where you update all sales persons commission by 100 pounds
+
+mysql> update salespeople
+    -> set comm=comm+100;
+Query OK, 22 rows affected (0.04 sec)
+Rows matched: 23  Changed: 22  Warnings: 0
+
+4) WAQ to update all ratings with null
+
+5) WAQ to print cnum, cname, and city they live in London,
+Hyderabad,Bengaluru and Chennai. cname should be printed in
+upper case, city in lower case
+ysql> select cnum,UPPER(cname) Customer_Name,LOWER(city) City
+    -> from customers
+    -> where city In
+    ->  ('London','Hyderbad','Bengaluru','Chennai');
++------+---------------+-----------+
+| cnum | Customer_Name | City      |
++------+---------------+-----------+
+| 5003 | ALEX          | london    |
+| 5004 | RAHUL         | london    |
+| 5012 | JOHN          | london    |
+| 5019 | AKHIL         | chennai   |
+| 5020 | DIVYA         | chennai   |
+| 5021 | RAMESH        | bengaluru |
+| 5022 | KARTHIK       | bengaluru |
+| 5023 | NISHA         | chennai   |
+| 5024 | POOJA         | bengaluru |
+| 5025 | SURESH        | chennai   |
+| 5026 | ANJALI        | bengaluru |
++------+---------------+-----------+
+11 rows in set (0.00 sec)6) WAQ to print all those orders
+where order amount is in range
+of 2000 to 10000 pounds(use
+between operator only)
+
+7) WAQ where we only use order table to print number of orders
+for each customer (use group by)
+ SELECT cnum, COUNT(*) AS number_of_orders
+    -> FROM orders
+    -> GROUP BY cnum;
++------+------------------+
+| cnum | number_of_orders |
++------+------------------+
+| 5001 |                1 |
+| 5002 |                1 |
+| 5003 |                2 |
+| 5004 |                1 |
+| 5006 |                1 |
+| 5008 |                1 |
+| 5012 |                1 |
+| 5013 |                1 |
+| 5015 |                1 |
+| 5018 |                1 |
+| 5019 |                1 |
+| 5021 |                1 |
+| 5022 |                1 |
+| 5029 |                1 |
++------+------------------+
+14 rows in set (0.01 sec)
+
+8) WAQ where you will print all orders in range 1000 to 5000
+pounds but salesnumber(snum) 1002 should be disqualified
+
+mysql> SELECT *
+    -> FROM orders
+    -> WHERE oamount BETWEEN 1000 AND 5000
+    -> AND snum NOT IN (1002);
++------+------------+---------+------+------+
+| onum | odate      | oamount | snum | cnum |
++------+------------+---------+------+------+
+| 3002 | 2026-01-12 | 4500.75 | 1004 | 5001 |
+| 3003 | 2026-01-15 | 1200.00 | 1015 | 5002 |
+| 3005 | 2026-02-01 | 3200.00 | 1006 | 5019 |
+| 3008 | 2026-02-15 | 1500.50 | 1007 | 5022 |
+| 3010 | 2026-03-01 | 2300.00 | 1001 | 5004 |
+| 3012 | 2026-03-10 | 4300.25 | 1005 | 5013 |
+| 3014 | 2026-03-20 | 2800.50 | 1018 | 5012 |
++------+------------+---------+------+------+
+7 rows in set (0.00 sec)
+
+9) WAQ to print all details of sales people but sales name
+should be indescending order.
+sql> select *
+    -> from salespeople
+    -> order by sname desc;
++-------+-----------+------------+------------+---------+
+| snum  | sname     | city       | comm       | country |
++-------+-----------+------------+------------+---------+
+|  1005 | sophia    | NewYork    |  699353.11 | NULL    |
+|  1011 | Simran    | London     |   70474.21 | NULL    |
+|  1015 | shilpa    | Bengaluru  |    8494.21 | NULL    |
+|  1013 | sherya    | USA        |    7172.31 | NULL    |
+|  1018 | Rixon     | London     |   99345.21 | NULL    |
+|  1001 | Raju      | Delhi      |   46232.23 | NULL    |
+|  1020 | Raghul    | NULL       |       NULL | NULL    |
+|  1014 | Punit     | Mumbai     |   25547.66 | NULL    |
+|  1012 | Peel      | London     |    6062.01 | NULL    |
+|  1004 | Pankaj    | Mumbai     |  645887.87 | NULL    |
+|  1017 | monika    | Barcelona  |    4254.21 | NULL    |
+|  1003 | Manju     | Bengaluru  |   66087.32 | NULL    |
+|  1030 | mani      | manchester |     600.00 | NULL    |
+|  1010 | Malu      | TamilNadu  |   79545.21 | NULL    |
+|  1019 | Kavya     | Mysore     |   66073.21 | NULL    |
+| 10067 | James     | London     |     640.00 | UK      |
+|  1007 | Chinju    | Bengaluru  |    6247.12 | NULL    |
+|  1008 | Bhavya    | Delhi      |   11832.00 | NULL    |
+|  1006 | Appu      | Chennai    |  988164.00 | NULL    |
+|  1021 | anju      | manchester |     600.00 | NULL    |
+|  1009 | Angel     | USA        |   99075.21 | NULL    |
+|  1016 | alexander | London     |   99345.01 | NULL    |
+|  1002 | Alex      | London     | 5877553.21 | NULL    |
++-------+-----------+------------+------------+---------+
+23 rows in set (0.01 sec)
+
+10) WAQ where you will print number of customers for each
+sales person and it should be printed in descending order
+SELECT snum, COUNT(*) AS number_of_customers
+    -> FROM customers
+    -> GROUP BY snum
+    -> ORDER BY number_of_customers DESC;
++------+---------------------+
+| snum | number_of_customers |
++------+---------------------+
+| 1006 |                   3 |
+| 1003 |                   3 |
+| 1015 |                   2 |
+| 1016 |                   2 |
+| 1002 |                   2 |
+| 1005 |                   2 |
+| 1011 |                   2 |
+| 1014 |                   2 |
+| 1001 |                   2 |
+| 1004 |                   1 |
+| 1009 |                   1 |
+| 1013 |                   1 |
+| 1012 |                   1 |
+| 1018 |                   1 |
+| 1017 |                   1 |
+| 1021 |                   1 |
+| 1007 |                   1 |
+| 1010 |                   1 |
+| 1008 |                   1 |
++------+---------------------+
+19 rows in set (0.00 sec)
+
+11) WAQ where you will print number of orders for every
+salesman ,his highest order amount,lowest order amount and average
+order amount.Customer number should be printed in ascending order
+mysql> SELECT snum,
+    ->        COUNT(*) AS number_of_orders,
+    ->        MAX(oamount) AS highest_order_amount,
+    ->        MIN(oamount) AS lowest_order_amount,
+    ->        AVG(oamount) AS average_order_amount
+    -> FROM orders
+    -> GROUP BY snum
+    -> ORDER BY snum ASC;
++------+------------------+----------------------+---------------------+----------------------+
+| snum | number_of_orders | highest_order_amount | lowest_order_amount | average_order_amount |
++------+------------------+----------------------+---------------------+----------------------+
+| 1001 |                1 |              2300.00 |             2300.00 |          2300.000000 |
+| 1002 |                1 |              2500.50 |             2500.50 |          2500.500000 |
+| 1003 |                1 |              5600.80 |             5600.80 |          5600.800000 |
+| 1004 |                1 |              4500.75 |             4500.75 |          4500.750000 |
+| 1005 |                1 |              4300.25 |             4300.25 |          4300.250000 |
+| 1006 |                1 |              3200.00 |             3200.00 |          3200.000000 |
+| 1007 |                1 |              1500.50 |             1500.50 |          1500.500000 |
+| 1009 |                1 |              9900.00 |             9900.00 |          9900.000000 |
+| 1011 |                1 |              8900.90 |             8900.90 |          8900.900000 |
+| 1014 |                1 |              9100.00 |             9100.00 |          9100.000000 |
+| 1015 |                1 |              1200.00 |             1200.00 |          1200.000000 |
+| 1016 |                1 |              7800.25 |             7800.25 |          7800.250000 |
+| 1017 |                1 |              7600.00 |             7600.00 |          7600.000000 |
+| 1018 |                1 |              2800.50 |             2800.50 |          2800.500000 |
+| 1021 |                1 |              6700.75 |             6700.75 |          6700.750000 |
++------+------------------+----------------------+---------------------+----------------------+
+15 rows in set (0.00 sec)
+
+=================================
+
+================================
+=================================
+================================
